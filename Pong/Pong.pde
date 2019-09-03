@@ -42,16 +42,23 @@ class Ball {
   }
 
   void reset() {
+    if (random(0, 1) == 0) {
+      vx *= -1;
+    } else {
+      vy *=-1;
+    }
     posX = (sizeX/2) + 2;
     posY = sizeY/2;
   }
 
+  void changeDirection() {
+    vx *= -1;
+  }
   void move() {
-    if (posY+7 > sizeY){
-     vy *= -1; 
-    }
-    else if (posY-7 < 0){
-     vy *= -1; 
+    if (posY+7 > sizeY) {
+      vy *= -1;
+    } else if (posY-7 < 0) {
+      vy *= -1;
     }
     posX += vx;
     posY += vy;
@@ -75,7 +82,7 @@ int collision(Ball ball, Bar b1, Bar b2) {
       return 1;
     }
   }
-  return 0;
+  return 3;
 }
 
 
@@ -138,7 +145,9 @@ void draw() {
   if (start == true) {
     ball.move();
   }
-
+  if (collision(ball, b1, b2) == 0) {
+    ball.changeDirection();
+  }
   //if left player scores
   if (collision(ball, b1, b2) == 1) {
     score1++;
