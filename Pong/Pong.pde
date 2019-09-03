@@ -34,7 +34,7 @@ class Bar {
 
 class Ball {
   public int posX = (sizeX/2) + 2, posY = sizeY/2;
-  public int vx, vy;
+  public int vx = -2, vy = 2; // positive values moves right and down, negative values moves left and up
 
   void show() {
     fill(252, 131, 2);
@@ -47,7 +47,14 @@ class Ball {
   }
 
   void move() {
-    posX += 5;
+    if (posY+7 > sizeY){
+     vy *= -1; 
+    }
+    else if (posY-7 < 0){
+     vy *= -1; 
+    }
+    posX += vx;
+    posY += vy;
   }
 }
 
@@ -58,10 +65,13 @@ int collision(Ball ball, Bar b1, Bar b2) {
   } else if (ball.posX+7 > b2.posX && (ball.posY < b2.posY+50 && ball.posY+7 > b2.posY) ) {
     return 0;
   }
-  if (ball.posX-(15+7) < b1.posX || ball.posX+7 > b2.posX) {
+  if (ball.posX-(15+7) < b1.posX ) {
     if (ball.posY > b1.posY+50 || ball.posY+7 < b1.posY) {
       return 2;
-    } else if (ball.posY > b2.posY+50 || ball.posY+7 < b2.posY) {
+    }
+  }
+  if (ball.posX+7 > b2.posX) {
+    if (ball.posY > b2.posY+50 || ball.posY+7 < b2.posY) {
       return 1;
     }
   }
