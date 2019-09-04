@@ -1,3 +1,8 @@
+import ddf.minim.*;
+
+Minim m;
+AudioSample hitSound;
+
 int score1 = 0, score2 = 0; //score1 => score of player 1(left), score2 => score of player 2(right)
 int sizeX = 700, sizeY = 400; // canvas size
 boolean start = false; 
@@ -34,7 +39,7 @@ class Bar {
 
 class Ball {
   public int posX = (sizeX/2) + 2, posY = sizeY/2;
-  public int vx = -2, vy = 2; // positive values moves right and down, negative values moves left and up
+  public int vx = -3, vy = 2; // positive values moves right and down, negative values moves left and up
 
   void show() {
     fill(252, 131, 2);
@@ -89,6 +94,8 @@ int collision(Ball ball, Bar b1, Bar b2) {
 void setup() {
   size(700, 400);
   noStroke();
+  m = new Minim(this);
+  hitSound = m.loadSample("Beep8.mp3",512); 
 }
 
 void keyPressed() {
@@ -146,6 +153,7 @@ void draw() {
     ball.move();
   }
   if (collision(ball, b1, b2) == 0) {
+    hitSound.trigger();
     ball.changeDirection();
   }
   //if left player scores
