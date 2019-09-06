@@ -13,7 +13,7 @@ Bar b2 = new Bar(sizeX-30);
 Ball ball = new Ball();
 
 class Bar {
-  public int posX = 15, posY = sizeY/2;
+  public int posX = 15, posY = sizeY/2, speed = 5, curSpeed = 0;
 
   Bar (int _x) {
     posX = _x;
@@ -25,14 +25,23 @@ class Bar {
   }
 
   void moveUp() {
-    if (posY > 5) {
-      posY -= 15;
-    }
+    curSpeed = -speed;
   }
 
   void moveDown() {
-    if (posY < sizeY-65) {
-      posY += 15;
+    curSpeed = speed;
+  }
+  
+  void stop() {
+    curSpeed = 0;
+  }
+  
+  void move() {
+    posY += curSpeed;
+    if (posY > sizeY - 65) {
+      posY = sizeY-65;
+    } else if (posY < 5) {
+      posY = 5;
     }
   }
 }
@@ -117,6 +126,16 @@ void keyPressed() {
     b2.moveDown();
   }
 }
+void keyReleased() {
+  //Left bar controls
+  if (key == 'w' || key == 's') {
+    b1.stop();
+  }
+  //Right bar controls
+  if (keyCode == UP || keyCode == DOWN) {
+    b2.stop();
+  }
+}
 
 void draw() {
   //Board
@@ -148,6 +167,8 @@ void draw() {
   b1.show();
   b2.show();
   ball.show();
+  b1.move();
+  b2.move();
 
   if (start == true) {
     ball.move();
