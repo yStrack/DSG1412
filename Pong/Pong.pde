@@ -31,11 +31,11 @@ class Bar {
   void moveDown() {
     curSpeed = speed;
   }
-  
+
   void stop() {
     curSpeed = 0;
   }
-  
+
   void move() {
     posY += curSpeed;
     if (posY > sizeY - 65) {
@@ -99,12 +99,11 @@ int collision(Ball ball, Bar b1, Bar b2) {
   return 3;
 }
 
-
 void setup() {
   size(700, 400);
   noStroke();
   m = new Minim(this);
-  hitSound = m.loadSample("Beep8.mp3",512); 
+  hitSound = m.loadSample("Beep8.mp3", 512);
 }
 
 void keyPressed() {
@@ -179,16 +178,20 @@ void draw() {
   }
   //if left player scores
   if (collision(ball, b1, b2) == 1) {
-    score1++;
-    ball.reset();
-    start = false;
+    if (ball.posX-7 < 0 || ball.posX+7 > sizeX) {
+      score1++;
+      ball.reset();
+      start = false;
+    }
     //init = true;
   }
   //if right player scores
   else if (collision(ball, b1, b2) == 2) {
-    score2++;
-    ball.reset();
-    start = false;
+    if (ball.posX-7 < 0 || ball.posX+7 > sizeX) {
+      score2++;
+      ball.reset();
+      start = false;
+    }
     //init = true;
   }
 }
